@@ -1,0 +1,5473 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Surrounded — A Birthday Read</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+  --amber:#ffb84d;
+
+  --coral:#ff6f61;
+
+  --porcelain:#f5efe6;
+
+  --dim:#9a9aa4;
+
+  --ring:rgba(245,239,230,0.13);
+
+  --bubble:#1a1a1f;
+
+}
+
+*{
+
+  box-sizing:border-box;
+
+  margin:0;
+
+  padding:0;
+
+}
+
+html,body{
+
+  width:100%;
+
+  height:100%;
+
+  background:#050505;
+
+  overflow:hidden;
+
+  font-family:'Inter',sans-serif;
+
+  color:var(--porcelain);
+
+}
+
+#vignette{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:0;
+
+  pointer-events:none;
+
+  background:
+
+radial-gradient(
+
+      circle at 50% 42%,
+
+rgba(255,255,255,0.10) 0%,
+
+rgba(30,30,32,0.55) 32%,
+
+      #050505 72%
+
+    );
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+  *{
+
+    animation-duration:0.01ms !important;
+
+    transition-duration:0.01ms !important;
+
+  }
+
+}
+
+/* ============================================================
+
+   INTRO
+
+   ============================================================ */
+
+#intro{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:60;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  transition:opacity .9s ease, visibility .9s;
+
+  text-align:center;
+
+}
+
+#intro.hidden{
+
+  opacity:0;
+
+  visibility:hidden;
+
+  pointer-events:none;
+
+}
+
+.intro-inner{
+
+  max-width:540px;
+
+  padding:28px;
+
+  position:relative;
+
+  z-index:2;
+
+}
+
+.eyebrow{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  letter-spacing:.28em;
+
+  text-transform:uppercase;
+
+  color:var(--amber);
+
+  margin-bottom:20px;
+
+}
+
+.intro-title{
+
+  font-family:'Fraunces',serif;
+
+  font-weight:500;
+
+  font-style:italic;
+
+  font-size:clamp(26px,5vw,42px);
+
+  line-height:1.18;
+
+  margin-bottom:16px;
+
+}
+
+.intro-title b{
+
+  font-style:normal;
+
+  font-weight:600;
+
+  color:var(--amber);
+
+}
+
+.intro-sub{
+
+  font-size:14px;
+
+  color:var(--dim);
+
+  line-height:1.6;
+
+  margin-bottom:30px;
+
+}
+
+.btn{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11.5px;
+
+  letter-spacing:.1em;
+
+  text-transform:uppercase;
+
+  background:transparent;
+
+  color:var(--porcelain);
+
+  border:1px solid var(--ring);
+
+  border-radius:100px;
+
+  padding:13px 28px;
+
+  cursor:pointer;
+
+  transition:.3s ease;
+
+}
+
+.btn:hover,
+
+.btn:focus-visible{
+
+  border-color:var(--amber);
+
+  color:var(--amber);
+
+  box-shadow:0 0 20px rgba(255,184,77,.15);
+
+}
+
+/* ============================================================
+
+   STAGE
+
+   ============================================================ */
+
+#stage{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:1;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+}
+
+#top-bar{
+
+  position:absolute;
+
+  top:58px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:100%;
+
+  max-width:780px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  padding:0 28px;
+
+  z-index:5;
+
+}
+
+#round-tabs{
+
+  display:flex;
+
+  gap:7px;
+
+}
+
+.rtab{
+
+  width:24px;
+
+  height:24px;
+
+  border-radius:50%;
+
+  border:1px solid var(--ring);
+
+  background:transparent;
+
+  color:var(--dim);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10.5px;
+
+  cursor:pointer;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  transition:.25s ease;
+
+}
+
+.rtab:hover{
+
+  border-color:var(--amber);
+
+  color:var(--amber);
+
+}
+
+.rtab.active{
+
+  background:var(--amber);
+
+  border-color:var(--amber);
+
+  color:#141414;
+
+  font-weight:600;
+
+}
+
+.rtab.complete::after{
+
+  content:'';
+
+}
+
+#overall-progress{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10.5px;
+
+  color:var(--dim);
+
+  letter-spacing:.06em;
+
+}
+
+#ring-wrap{
+
+  position:relative;
+
+  width:min(88vw,78vh,760px);
+
+  height:min(88vw,78vh,760px);
+
+}
+
+.table-ring{
+
+  position:absolute;
+
+  inset:0;
+
+  border-radius:50%;
+
+  border:1px dashed var(--ring);
+
+}
+
+.seat{
+
+  position:absolute;
+
+  width:56px;
+
+  height:56px;
+
+  left:50%;
+
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  background:none;
+
+  border:none;
+
+  padding:0;
+
+  transition:
+
+    transform .5s cubic-bezier(.2,.8,.2,1),
+
+    opacity .5s ease,
+
+    filter .5s ease;
+
+}
+
+.seat .avatar-wrap{
+
+  width:46px;
+
+  height:46px;
+
+  border-radius:50%;
+
+  overflow:hidden;
+
+  border:1.5px solid var(--ring);
+
+  transition:.35s ease;
+
+  position:relative;
+
+  background:#111114;
+
+}
+
+.seat .pname{
+
+  position:absolute;
+
+  bottom:-17px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:9.5px;
+
+  color:var(--dim);
+
+  opacity:.8;
+
+  white-space:nowrap;
+
+}
+
+.seat:hover .avatar-wrap,
+
+.seat:focus-visible .avatar-wrap{
+
+  border-color:var(--amber);
+
+  transform:scale(1.1);
+
+}
+
+.seat.answered .avatar-wrap{
+
+  border-color:rgba(255,184,77,.55);
+
+}
+
+/* Faint ambient glow on seats that haven't been opened yet */
+@keyframes seat-unopened-glow{
+  0%,100%{ box-shadow:0 0 5px rgba(255,184,77,.16); }
+  50%{ box-shadow:0 0 13px rgba(255,184,77,.38); }
+}
+.seat:not(.answered):not(.center-seat) .avatar-wrap{
+  animation:seat-unopened-glow 2.8s ease-in-out infinite;
+}
+
+.seat.dimmed{
+
+  opacity:.22;
+
+  filter:blur(.4px);
+
+}
+
+.seat.active{
+
+  transform:translate(-50%,-50%) scale(1.22);
+
+  z-index:6;
+
+}
+
+.seat.active .avatar-wrap{
+
+  border-color:var(--amber);
+
+  box-shadow:0 0 26px rgba(255,184,77,.4);
+
+}
+
+.center-seat{
+
+  width:76px;
+
+  height:76px;
+
+  z-index:4;
+
+}
+
+.center-seat .avatar-wrap{
+
+  width:64px;
+
+  height:64px;
+
+  border-color:rgba(255,184,77,.45);
+
+}
+
+.center-seat.you{
+
+  left:43%;
+
+  top:50%;
+
+}
+
+.center-seat.him{
+
+  left:57%;
+
+  top:50%;
+
+}
+
+.center-link{
+
+  position:absolute;
+
+  left:50%;
+
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  width:40px;
+
+  height:1px;
+
+  background:linear-gradient(90deg,var(--coral),var(--amber));
+
+  opacity:.5;
+
+  z-index:3;
+
+}
+
+/* ============================================================
+
+   SPEECH BUBBLE
+
+   ============================================================ */
+
+#bubble{
+
+  position:absolute;
+
+  left:43%;
+
+  top:10%;
+
+  transform:translate(-50%,-8px);
+
+  width:min(90vw,440px);
+
+  background:var(--bubble);
+
+  border:1px solid var(--ring);
+
+  border-radius:18px;
+
+  padding:20px 24px 24px;
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:
+
+    opacity .4s ease,
+
+    transform .4s ease,
+
+    visibility .4s;
+
+  z-index:8;
+
+  box-shadow:0 18px 40px rgba(0,0,0,.5);
+
+}
+
+#bubble.open{
+
+  opacity:1;
+
+  visibility:visible;
+
+  transform:translate(-50%,0);
+
+}
+
+#bubble::after{
+
+  content:'';
+
+  position:absolute;
+
+  left:43%;
+
+  bottom:-9px;
+
+  transform:translateX(-50%);
+
+  width:16px;
+
+  height:16px;
+
+  background:var(--bubble);
+
+  border-right:1px solid var(--ring);
+
+  border-bottom:1px solid var(--ring);
+
+  clip-path:polygon(0 0,100% 0,50% 100%);
+
+}
+
+.b-sender{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+  margin-bottom:14px;
+
+}
+
+.b-sender-avatar{
+
+  width:30px;
+
+  height:30px;
+
+  border-radius:50%;
+
+  overflow:hidden;
+
+  border:1.5px solid var(--amber);
+
+  flex:0 0 auto;
+
+}
+
+.b-sender-name{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11.5px;
+
+  color:var(--amber);
+
+  letter-spacing:.04em;
+
+}
+
+#bubble .b-eyebrow{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+
+  color:var(--dim);
+
+  margin-bottom:12px;
+
+}
+
+/* NEW:
+
+   Used for the single-statement Truity format in Rounds 2–7.
+
+*/
+
+#bubble .b-statement{
+
+  font-family:'Fraunces',serif;
+
+  font-size:20px;
+
+  line-height:1.35;
+
+  text-align:center;
+
+  color:var(--porcelain);
+
+  margin:4px 8px 18px;
+
+}
+
+.slider-row{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:16px;
+
+}
+
+.slider-track{
+
+  flex:1;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:0;
+
+  position:relative;
+
+  height:16px;
+
+}
+
+.slider-line{
+
+  position:absolute;
+
+  left:0;
+
+  right:0;
+
+  top:50%;
+
+  height:1px;
+
+  background:var(--ring);
+
+  transform:translateY(-50%);
+
+}
+
+.slider-fill{
+
+  position:absolute;
+
+  left:0;
+
+  top:50%;
+
+  height:1px;
+
+  background:linear-gradient(90deg,var(--coral),var(--amber));
+
+  transform:translateY(-50%);
+
+  transition:width .7s cubic-bezier(.2,.8,.2,1);
+
+}
+
+.slider-dot{
+
+  width:9px;
+
+  height:9px;
+
+  border-radius:50%;
+
+  background:#26262b;
+
+  border:1px solid var(--ring);
+
+  position:relative;
+
+  z-index:2;
+
+  flex:0 0 auto;
+
+  margin:0 auto;
+
+}
+
+.slider-dot.filled{
+
+  background:var(--amber);
+
+  border-color:var(--amber);
+
+  box-shadow:0 0 8px rgba(255,184,77,.6);
+
+}
+
+.slider-dots{
+
+  position:absolute;
+
+  left:0;
+
+  right:0;
+
+  display:flex;
+
+  justify-content:space-between;
+
+}
+
+.side-label{
+
+  font-size:9.5px;
+
+  color:var(--dim);
+
+  max-width:72px;
+
+  line-height:1.35;
+
+  text-align:center;
+
+}
+
+#bubble .b-note{
+
+  font-family:'Fraunces',serif;
+
+  font-size:16.5px;
+
+  font-style:italic;
+
+  line-height:1.6;
+
+  color:var(--porcelain);
+
+}
+
+/* ============================================================
+
+   SCRIM
+
+   ============================================================ */
+
+#scrim{
+
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(0,0,0,.35);
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.4s ease;
+
+  z-index:7;
+
+}
+
+#scrim.open{
+
+  opacity:1;
+
+  visibility:visible;
+
+}
+
+/* ============================================================
+
+   FINALE
+
+   ============================================================ */
+
+#finale{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:70;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:radial-gradient(circle at 50% 42%,#1a150e 0%,#050505 65%);
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:opacity 1s ease, visibility 1s;
+
+  text-align:center;
+
+  padding:24px;
+
+}
+
+#finale.show{
+
+  opacity:1;
+
+  visibility:visible;
+
+}
+
+
+/* ============================================================
+   FINALE PHOTOS
+   ============================================================ */
+#finale{
+  overflow-y:auto;
+}
+.finale-content{
+  width:min(92vw,760px);
+  padding:34px 20px 50px;
+}
+.finale-photos{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin:28px auto 0;
+}
+.finale-photo{
+  width:150px;
+  height:150px;
+  border-radius:14px;
+  object-fit:cover;
+  border:1px solid rgba(245,239,230,.16);
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+}
+.finale-photo-label{
+  margin-top:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  color:var(--dim);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.finale-photo-wrap{
+  text-align:center;
+}
+
+@media (max-width:480px){
+  .finale-content{padding:30px 14px 44px;}
+  .finale-photo{width:125px;height:125px;}
+}
+
+#finale .f-eyebrow{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  letter-spacing:.25em;
+
+  text-transform:uppercase;
+
+  color:var(--amber);
+
+  margin-bottom:22px;
+
+}
+
+#type-letters{
+
+  display:flex;
+
+  gap:14px;
+
+  justify-content:center;
+
+  margin-bottom:26px;
+
+}
+
+.type-letter{
+
+  font-family:'Fraunces',serif;
+
+  font-weight:600;
+
+  font-size:clamp(38px,9vw,72px);
+
+  color:var(--porcelain);
+
+  opacity:0;
+
+  transform:translateY(14px);
+
+  transition:opacity .6s ease, transform .6s ease;
+
+}
+
+.type-letter.show{
+
+  opacity:1;
+
+  transform:translateY(0);
+
+  color:var(--amber);
+
+  text-shadow:0 0 30px rgba(255,184,77,.35);
+
+}
+
+#type-name{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:12px;
+
+  letter-spacing:.1em;
+
+  color:var(--dim);
+
+  text-transform:uppercase;
+
+  margin-bottom:30px;
+
+}
+
+#hbd-note{
+
+  font-family:'Fraunces',serif;
+
+  font-style:italic;
+
+  font-size:clamp(18px,3.4vw,24px);
+
+  line-height:1.5;
+
+  max-width:520px;
+
+  margin:0 auto;
+
+  opacity:0;
+
+  transition:opacity 1s ease 1.6s;
+
+}
+
+#hbd-note.show{
+
+  opacity:1;
+
+}
+
+#hbd-note b{
+
+  font-style:normal;
+
+  font-weight:600;
+
+  color:var(--amber);
+
+}
+
+#finale .btn{
+
+  margin-top:32px;
+
+  opacity:0;
+
+  transition:opacity 1s ease 2s;
+
+}
+
+#finale .btn.show{
+
+  opacity:1;
+
+}
+
+/* ============================================================
+
+   MOBILE
+
+   ============================================================ */
+
+@media (max-width:480px){
+
+  .seat{
+
+    width:44px;
+
+    height:44px;
+
+  }
+
+  .seat .avatar-wrap{
+
+    width:36px;
+
+    height:36px;
+
+  }
+
+  .center-seat{
+
+    width:60px;
+
+    height:60px;
+
+  }
+
+  .center-seat .avatar-wrap{
+
+    width:50px;
+
+    height:50px;
+
+  }
+
+  #bubble{
+
+    left:50%;
+
+  }
+
+  #bubble::after{
+
+    left:50%;
+
+  }
+
+  #bubble .b-statement{
+
+    font-size:18px;
+
+  }
+
+}
+
+/* ============================================================
+
+   FLAG PROGRESS
+
+   ============================================================ */
+
+#flag-progress{
+
+  position:fixed;
+
+  left:26px;
+
+  bottom:64px;
+
+  z-index:9;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+  font-family:'JetBrains Mono',monospace;
+
+}
+
+.flag-icon-wrap{
+
+  position:relative;
+
+  width:30px;
+
+  height:30px;
+
+}
+
+.flag-icon-wrap svg{
+
+  position:absolute;
+
+  inset:0;
+
+  width:100%;
+
+  height:100%;
+
+}
+
+.flag-outline path.pole{
+
+  stroke:rgba(245,239,230,0.35);
+
+  stroke-width:2.4;
+
+  stroke-linecap:round;
+
+  fill:none;
+
+}
+
+.flag-outline path.cloth{
+
+  fill:none;
+
+  stroke:rgba(245,239,230,0.35);
+
+  stroke-width:1.6;
+
+  stroke-linejoin:round;
+
+}
+
+#flag-fill-clip{
+
+  position:absolute;
+
+  inset:0;
+
+  overflow:hidden;
+
+  clip-path:inset(100% 0 0 0);
+
+  transition:clip-path .6s cubic-bezier(.2,.8,.2,1);
+
+}
+
+.flag-fill path.pole{
+
+  stroke:#e2453a;
+
+  stroke-width:2.4;
+
+  stroke-linecap:round;
+
+  fill:none;
+
+}
+
+.flag-fill path.cloth{
+
+  fill:#e2453a;
+
+  stroke:#e2453a;
+
+  stroke-linejoin:round;
+
+}
+
+#flag-count{
+
+  font-size:13px;
+
+  color:var(--porcelain);
+
+  font-weight:500;
+
+}
+
+#flag-count span{
+
+  color:var(--dim);
+
+  font-size:11px;
+
+}
+
+/* ============================================================
+
+   YOUTUBE-STYLE FRAME
+
+   ============================================================ */
+
+#yt-frame{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:45;
+
+  pointer-events:none;
+
+  border:14px solid #000;
+
+  box-sizing:border-box;
+
+  border-radius:16px;
+
+}
+
+#yt-frame::after{
+
+  content:'';
+
+  position:absolute;
+
+  inset:0;
+
+  border:1px solid rgba(255,255,255,0.28);
+
+  border-radius:10px;
+
+  pointer-events:none;
+
+}
+
+.yt-topbar{
+
+  position:absolute;
+
+  top:0;
+
+  left:0;
+
+  right:0;
+
+  padding:16px 24px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  background:linear-gradient(180deg,rgba(0,0,0,0.6),transparent);
+
+}
+
+.yt-live{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  letter-spacing:.1em;
+
+  color:#ff4444;
+
+  font-weight:600;
+
+}
+
+.yt-title{
+
+  font-family:'Inter',sans-serif;
+
+  font-weight:600;
+
+  font-size:13.5px;
+
+  color:rgba(245,239,230,0.9);
+
+  letter-spacing:.01em;
+
+}
+
+.yt-bottombar{
+
+  position:absolute;
+
+  left:0;
+
+  right:0;
+
+  bottom:0;
+
+  padding-bottom:4px;
+
+  background:linear-gradient(0deg,rgba(0,0,0,0.55),transparent);
+
+}
+
+.yt-scrub{
+
+  position:relative;
+
+  height:3px;
+
+  background:rgba(255,255,255,0.22);
+
+  margin:0 22px 10px;
+
+}
+
+.yt-scrub-fill{
+
+  position:absolute;
+
+  left:0;
+
+  top:0;
+
+  bottom:0;
+
+  background:#ff2f2f;
+
+  width:0%;
+
+  transition:width .5s ease;
+
+}
+
+.yt-scrub-handle{
+
+  position:absolute;
+
+  top:50%;
+
+  width:11px;
+
+  height:11px;
+
+  border-radius:50%;
+
+  background:#ff2f2f;
+
+  transform:translate(-50%,-50%);
+
+  left:0%;
+
+  transition:left .5s ease;
+
+  box-shadow:0 0 6px rgba(255,0,0,.6);
+
+}
+
+.yt-controls{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+  padding:0 24px 12px;
+
+}
+
+.yt-play{
+
+  color:#fff;
+
+  font-size:12px;
+
+}
+
+.yt-time{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10.5px;
+
+  color:rgba(245,239,230,.65);
+
+}
+
+/* ============================================================
+
+   UP NEXT
+
+   ============================================================ */
+
+#up-next{
+
+  position:fixed;
+
+  right:-26px;
+
+  bottom:78px;
+
+  z-index:46;
+
+  width:236px;
+
+  background:#161618;
+
+  border:1px solid rgba(255,255,255,0.12);
+
+  border-radius:10px 0 0 10px;
+
+  display:flex;
+
+  overflow:hidden;
+
+  box-shadow:-10px 14px 30px rgba(0,0,0,.55);
+
+  opacity:0;
+
+  transform:translateX(24px);
+
+  transition:opacity 1s ease, transform 1s ease;
+
+  pointer-events:none;
+
+}
+
+#up-next.show{
+
+  opacity:1;
+
+  transform:translateX(0);
+
+}
+
+#up-next .un-label{
+
+  position:absolute;
+
+  top:6px;
+
+  left:8px;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:8px;
+
+  letter-spacing:.1em;
+
+  text-transform:uppercase;
+
+  color:rgba(255,255,255,0.55);
+
+  background:rgba(0,0,0,.4);
+
+  padding:2px 6px;
+
+  border-radius:3px;
+
+  z-index:2;
+
+}
+
+#up-next .un-thumb{
+
+  position:relative;
+
+  width:96px;
+
+  flex:0 0 auto;
+
+  background:linear-gradient(135deg,var(--coral),var(--amber));
+
+  display:flex;
+
+  align-items:flex-end;
+
+  justify-content:flex-end;
+
+}
+
+#up-next .un-dur{
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:8.5px;
+
+  color:#fff;
+
+  background:rgba(0,0,0,.6);
+
+  padding:1px 4px;
+
+  border-radius:2px;
+
+  margin:0 5px 5px 0;
+
+}
+
+#up-next .un-info{
+
+  padding:9px 10px 9px 8px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  gap:4px;
+
+  min-width:0;
+
+}
+
+#up-next .un-title{
+
+  font-family:'Inter',sans-serif;
+
+  font-size:11px;
+
+  font-weight:600;
+
+  line-height:1.3;
+
+  color:var(--porcelain);
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
+  display:-webkit-box;
+
+  -webkit-line-clamp:2;
+
+  -webkit-box-orient:vertical;
+
+}
+
+#up-next .un-channel{
+
+  font-family:'Inter',sans-serif;
+
+  font-size:9.5px;
+
+  color:var(--dim);
+
+}
+
+
+#results-btn{
+  border:0;
+  background:none;
+  padding:0;
+  margin-top:5px;
+  color:var(--amber);
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  opacity:.75;
+  pointer-events:auto;
+}
+#results-btn:hover,#results-btn:focus-visible{
+  opacity:1;
+  text-decoration:underline;
+}
+
+#up-next .un-views{
+
+  font-family:'Inter',sans-serif;
+
+  font-size:9px;
+
+  color:var(--dim);
+
+  opacity:.75;
+
+  margin-top:1px;
+
+}
+
+
+  /* Up Next card doubles as the link to results.html */
+  #up-next{
+    cursor:pointer;
+    pointer-events:auto;
+  }
+  #up-next:hover{
+    border-color:rgba(255,184,77,.45);
+    transform:translateX(-3px);
+  }
+
+</style>
+
+</head>
+
+<body>
+
+<div id="vignette"></div>
+
+<!-- ============================================================
+
+     INTRO
+
+     ============================================================ -->
+
+<div id="intro">
+
+  <div class="intro-inner">
+
+    <div class="eyebrow">
+
+      A Surrounded, because to love is to know
+
+    </div>
+
+    <h1 class="intro-title">
+
+      15 people around the table.<br>
+
+      Every one of them is a<br>
+
+      question about <b>you</b>.
+
+    </h1>
+
+    <p class="intro-sub">
+
+      10 rounds — the first and last rounds use paired statements,
+
+      while the middle rounds use the accuracy scale.
+
+      Work your way around.
+
+    </p>
+
+    <button class="btn" id="enter-btn">
+
+      Take a seat
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     MAIN STAGE
+
+     ============================================================ -->
+
+<div id="stage">
+
+  <div id="top-bar">
+
+    <div id="round-tabs"></div>
+
+    <div id="overall-progress">
+
+      0 / 139
+
+    </div>
+
+  </div>
+
+  <div id="ring-wrap">
+
+    <div class="table-ring"></div>
+
+<!-- Speech bubble -->
+
+    <div id="bubble">
+
+      <div class="b-sender">
+
+        <div class="b-sender-avatar" id="b-sender-avatar"></div>
+
+        <div class="b-sender-name" id="b-sender-name">
+
+          You think:
+
+        </div>
+
+      </div>
+
+      <div class="b-eyebrow" id="b-eyebrow">
+
+        ROUND 1 · MAYA ASKS
+
+      </div>
+
+<!--
+
+        Used for the accuracy-format rounds, where there is only one statement.
+
+      -->
+
+      <div class="b-statement" id="b-statement"></div>
+
+      <div class="slider-row">
+
+        <div class="side-label" id="b-left"></div>
+
+        <div class="slider-track">
+
+          <div class="slider-line"></div>
+
+          <div class="slider-fill" id="slider-fill"></div>
+
+          <div class="slider-dots" id="slider-dots"></div>
+
+        </div>
+
+        <div class="side-label" id="b-right"></div>
+
+      </div>
+
+      <div class="b-note" id="b-note"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     YOUTUBE FRAME
+
+     ============================================================ -->
+
+<div id="yt-frame">
+
+  <div class="yt-topbar">
+
+    <span class="yt-live">● LIVE</span>
+
+    <span class="yt-title" id="yt-title-text">
+
+      SURROUNDED — Yugam vs. His Perception
+
+    </span>
+
+  </div>
+
+  <div class="yt-bottombar">
+
+    <div class="yt-scrub">
+
+      <div
+
+class="yt-scrub-fill"
+
+id="yt-scrub-fill">
+
+      </div>
+
+      <div
+
+class="yt-scrub-handle"
+
+id="yt-scrub-handle">
+
+      </div>
+
+    </div>
+
+    <div class="yt-controls">
+
+      <span class="yt-play">▶</span>
+
+      <span class="yt-time" id="yt-time">
+
+        Round 1 / 10
+
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     UP NEXT
+
+     ============================================================ -->
+
+<div id="up-next">
+
+  <span class="un-label">
+
+    Up next
+
+  </span>
+
+  <div class="un-thumb">
+
+    <span class="un-dur" id="un-duration">
+
+      3:14
+
+    </span>
+
+  </div>
+
+  <div class="un-info">
+
+    <div class="un-title" id="un-title">
+
+      The Darkest Rabbit Hole in a Kids Show
+
+    </div>
+
+    <div class="un-channel" id="un-channel">
+
+      The Theorizer
+
+    </div>
+
+    <div class="un-views" id="un-views"></div>
+    <button id="results-btn" type="button">see results →</button>
+
+  </div>
+
+</div>
+
+<div id="scrim"></div>
+
+<!-- ============================================================
+
+     FLAG PROGRESS
+
+     ============================================================ -->
+
+<div id="flag-progress">
+
+  <div class="flag-icon-wrap">
+
+    <svg class="flag-outline" viewBox="0 0 24 24">
+
+      <path
+
+class="pole"
+
+d="M6 3v18"
+
+      />
+
+      <path
+
+class="cloth"
+
+d="M6 4c3-2.2 5.5.6 8.5-1c1.4-.8 3.5.2 3.5.2v9.4c0 0-2.1-1-3.5-.2c-3 1.6-5.5-1-8.5 1V4z"
+
+      />
+
+    </svg>
+
+    <div id="flag-fill-clip">
+
+      <svg class="flag-fill" viewBox="0 0 24 24">
+
+        <path
+
+class="pole"
+
+d="M6 3v18"
+
+        />
+
+        <path
+
+class="cloth"
+
+d="M6 4c3-2.2 5.5.6 8.5-1c1.4-.8 3.5.2 3.5.2v9.4c0 0-2.1-1-3.5-.2c-3 1.6-5.5-1-8.5 1V4z"
+
+        />
+
+      </svg>
+
+    </div>
+
+  </div>
+
+  <div id="flag-count">
+
+    0<span>/&nbsp;</span>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     FINALE
+
+     ============================================================ -->
+
+<div id="finale">
+
+  <div class="finale-content">
+
+    <div class="f-eyebrow">
+
+      Full circle
+
+    </div>
+
+    <div id="type-letters"></div>
+
+    <div id="type-name"></div>
+
+    <p id="hbd-note"></p>
+
+    <!-- Replace these two filenames with your actual photos. -->
+    <div class="finale-photos">
+      <div class="finale-photo-wrap">
+        <img class="finale-photo" src="yugam.jpg" alt="Yugam">
+        <div class="finale-photo-label">Yugam</div>
+      </div>
+      <div class="finale-photo-wrap">
+        <img class="finale-photo" src="arshita.jpg" alt="You">
+        <div class="finale-photo-label">You</div>
+      </div>
+    </div>
+
+    <button class="btn" id="replay-btn">
+
+      Sit back down
+
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ============================================================
+
+   EVERYTHING YOU EDIT LIVES HERE
+
+   Round 1 and Round 10:
+
+   [left statement, right statement, value, note]
+
+   Rounds 2–9:
+
+   [statement, value, note, "accuracy"]
+
+   value:
+
+   1 = far left / inaccurate
+
+   2 = somewhat left
+
+   3 = neutral
+
+   4 = somewhat right
+
+   5 = far right / accurate
+
+   ============================================================ */
+
+
+
+/* ============================================================
+
+   NAMES
+
+   ============================================================ */
+
+const NAMES = {
+
+  you: "You",
+
+  him: "Him"
+
+};
+
+
+
+/* ============================================================
+
+   WEBSITE / VIDEO TITLE
+
+   ============================================================ */
+
+const VIDEO_TITLE = "SURROUNDED — Him's Cut";
+
+
+
+/* ============================================================
+
+   UP NEXT CARD
+
+   ============================================================ */
+
+const RECOMMENDED = {
+
+  title: "The Darkest Rabbit Hole in a Kids Show",
+
+  channel: "The Theorizer",
+
+  views: "8.7M views",
+
+  duration: "2:36:32"
+
+};
+
+
+
+/* ============================================================
+
+   PEOPLE AROUND THE TABLE
+
+   ============================================================ */
+
+const PEOPLE_NAMES = [
+
+  "Shreknik",
+
+  "nisheesh",
+
+  "brinjal",
+
+  "heyyyyt",
+
+  "navyu",
+
+  "mishtake",
+
+  "maxico",
+
+  "E",
+
+  "hans",
+
+  "dtkTA",
+
+  "manananaya",
+
+  "brooo",
+
+  "monstah",
+
+  "variddy",
+
+  "maan"
+
+];
+
+
+
+/* ============================================================
+
+   FINALE
+
+   ============================================================ */
+
+const FINALE = {
+
+  type: "ENFP",
+
+  typeName: "The Campaigner",
+
+  note:
+
+    "Happy birthday, <b>yugam</b>. 100+ questions, one honest answer each — this is how I see you, and I hope some of it is how you see yourself too. I know you're probaby gonna say you're I, not E but stfu and this is how you have been perceived. <33 happiest birthday yugam, you're a gem!!! congratulations on turning 22, told you you'd make it here and we should head out and get a pint soon! missing our hangouts, thank you for being one of my best friends ever :D now stop brooding and go get sloshed."
+
+};
+
+
+
+/* ============================================================
+
+   QUESTIONS
+
+   ============================================================ */
+
+const ROUNDS = [
+
+/* ==========================================================
+
+     ROUND 1
+
+     PAIR FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 1",
+
+    rows: [
+
+      [
+
+        "I am often disorganised",
+
+        "I keep myself organised",
+
+        2,
+
+        "I know how your to-do lists are infamously pages long and the number of times I've gotten you to make one at CLB hehe"
+
+      ],
+
+      [
+
+        "I make decisions with my head",
+
+        "I make decisions with my heart",
+
+        3,
+
+        "I would say heart easy, and I think you would too but your ability to be able to rationalise is SO amazing that I fail to believe it has no bearing to your decision-making"
+
+      ],
+
+      [
+
+        "I like to try to innovate",
+
+        "I like to use trusted methods",
+
+        1,
+
+        "You're like a jukebox of ideas, especially when passionate. I remember you telling me all the things you'd done in relationships for your partner(s) and it amazes how thoughtful you are with these things!!!"
+
+      ],
+
+      [
+
+        "I keep my thoughts to myself",
+
+        "I speak up",
+
+        5,
+
+        "An 'open book' title doesn't cut it. You inspire me to be ready to reveal my thoughts and feelings. People are good and staying true is never the wrong choice."
+
+      ],
+
+      [
+
+        "I seek attention from others",
+
+        "I avoid attention from others",
+
+        2,
+
+        "She is a diva. She is opinionated. She loves to be seen. She's kinda badass."
+
+      ],
+
+      [
+
+        "I look for ways to help others",
+
+        "I look for ways to achieve my own goals",
+
+        1,
+
+        "Holy shit this was the easiest. The true embodiment of selflessness is you. You should care for yourself. I remember us discussing how you feel like you're a bottomless pit of empathy and giving. Whilst that may be true, what a shame it would be to pour it downstream to waste."
+
+      ],
+
+      [
+
+        "I start conversations",
+
+        "I let others start conversations",
+
+        2,
+
+        "My friend is on the shier side but I would be damned if someone initiated a conversation and reported to me that you didn't keep it going interesting."
+
+      ],
+
+      [
+
+        "I like ideas that are easy to understand",
+
+        "I like ideas that are complex",
+
+        5,
+
+        "I think one of the most beautiful things about your mindset is that even the most seemingly complex ideas can come undone as the simplest of things with a second of processing in your head. If complexity were a scenery, you and I would be viewing it from polarisingly different lenses while still contributing to getting that depth perception :D."
+
+      ],
+
+      [
+
+        "I feel the pain of other people",
+
+        "I am not easily affected by sad stories",
+
+        1,
+
+        "the word empathy should be renamed to yug-ampthy. this would be fitting. know that the world has gone dark if yugam goes stoic."
+
+      ],
+
+      [
+
+        "I put my needs first",
+
+        "I put others’ needs ahead of my own",
+
+        4,
+
+        "The only reason it isn't a 5 is because I have seen you be driven to a state of pure exhaustion and I am proud to say it's not a 5 cause it means you see merit in holding your own."
+
+      ],
+
+      [
+
+        "I follow a plan",
+
+        "I act on impulse",
+
+        4,
+
+        "This one is more balanced in my head for you but I know how much you hate planning (of some sorts ofc, not all)"
+
+      ],
+
+      [
+
+        "I am always prepared",
+
+        "I am often unprepared",
+
+        2,
+
+        "You're lucky you are mentally equipped to handle literally anything life throws at you (I never mentioned good or bad luck)"
+
+      ],
+
+      [
+
+        "I make sure everyone is taken care of",
+
+        "I look out for myself",
+
+        2,
+
+        "You're that sort of person who exudes warmth and familiarity to even those who meet you for the first time. I remember myra coming up to me after holi and saying Yugam seems SO nice as a person!"
+
+      ],
+
+      [
+
+        "I work first, play later",
+
+        "I play first, work later",
+
+        4,
+
+        "you're the sort of person who makes time. makes time for people you care about, no matter how many things would be overflowing from your own plate."
+
+      ],
+
+      [
+
+        "I value my social status",
+
+        "I value my privacy",
+
+        2,
+
+        "This feels like a false dichotomy; both can be true but I know privacy isn't a concept you hold too high in your mind (towards personal matters that is)"
+
+      ]
+
+    ]
+
+  },
+
+
+
+/* ==========================================================
+
+     ROUND 2
+
+     ACCURACY FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 2",
+
+    rows: [
+
+      [
+
+        "I have a lot of energy",
+
+        4,
+
+        "when your back allows you to. ok no, even when you're buzzin past enthusiastic f1 fans, having walked a billion and one steps, you still had a smile and excitement on your face for this new unknown :)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I have a vivid imagination",
+
+        5,
+
+        "i stg there are sentences ive heard you yap that seem absolutely unique-like no one's ever said it hehehe. a creative and imaginative spirit when it comes to selecting drinks too (especially at hans)! ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I prefer to follow a schedule",
+
+        3,
+
+        "you're easy-going, being ready to cycle back even when aditi and i were panicking w work the next morning. thanks for being w us anyway :) ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy trying to understand complicated ideas",
+
+        5,
+
+        "a wise lil birdie once told me she likes that word. to her, humanity uses the word to avoid talking about things, to pacify selves about complex things deferring responsibility too. what a whimsical yet profound stance.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I think about the needs of others",
+
+        5,
+
+        "you've been there for me in ways I didn't even anticipate I needed. our walks and those conversations have made more of an impact on my heart than you'd know. I remember when we were on call w Will and Het and debating stuff, you'd said whenever you argue a point, the goal is to educate the other and that the information stream flows both ways; it's never a competition on who can hold down their point better, notwithstanding their new thoughts. I remember agreeing and chiming in with 'yugam has changed my pov more times than I can count'.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy being the center of attention",
+
+        3,
+
+        "your everlasting war between self-depreciation and a god complex leaves this score to be left at the centre of the scale I fear :)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I make sure my work is finished on time",
+
+        4,
+
+        "CANVAS: 2358 submission, 2359 deadline",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I sympathize with the homeless",
+
+        5,
+
+        "you're one to know home often refers to people, not merely places. and in that sense, being homeless seems as devastating as it gets. and I am sorry to know that you seem familiar to this pain; but know you mean so much to so many people, and home is a collection of rooms you build in bonds with your people. goes without saying, know you have a nice pink, sparkly, full-of-books and polaroids sorta room with 5sos playing in the background in mine :)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I think about why people do the things they do",
+
+        5,
+
+        "your reactions are always amusing to me. helps when you have a completely opposing reaction to the one I expect; gets me thinking.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy chatting with new acquaintances",
+
+        3,
+
+        "she's a social butterfly (when the other person is also friendly)! but fr, lemme tell you the 'unexpected insights' i'd had of you, a new acquaintance : 'looks fondly at memories/values the little things. keeps tokens of the fondest memories. passionate about course, academically driven. not too fond of (blank?). has a creative look on tech.' you seem to make great first impressions :) ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I keep my belongings in their proper place",
+
+        4,
+
+        "glad I could help put stuff (heavy boxes) in their proper places (overhead cupboards) [you will accept the help i give, proof that this is not optional, especially when back and health is involved]",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy being there for people when they are feeling sad",
+
+        4,
+
+        "enjoy in the sense that you can support them, not enjoy because they're feeling sad itself",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I would rather go with the flow than have a set schedule",
+
+        3,
+
+        "spontaneity aside, you have an alarming psychological keeda for being at LEAST 3 business days early to wherever you've to be. Maybe knowing where you've to be and when to be there is better for your nerves.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy philosophical discussions",
+
+        5,
+
+        "while a lot of them may be monologues you have with the often dead authors of the books you read, I think you articulate it super well in other conversations too. A natural conversationalist, a sentiment i'm sure varidhi and maanya can testify in court to.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I would enjoy attending a large party in my honor",
+
+        3,
+
+        "depends on daaru availability hehe",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+
+
+/* ==========================================================
+
+     ROUND 3
+
+     ACCURACY FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 3",
+
+    rows: [
+
+      [
+
+        "I am very attentive to deadlines",
+
+        4,
+
+        "the awareness is there, execution may be questionable teehee",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am helpful to the people around me",
+
+        1,
+
+        "actually, leave all the niceties aside, you're an asshole {REAL! (jk)}",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "It is important to me to understand the bigger picture",
+
+        4,
+
+        "you help me put together that bigger picture for sure, maybe I'll add it to the endless number of pictures i have yet to send to you...",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "It is easy for me to talk to strangers",
+
+        3,
+
+        "talk toh not sure, but admire toh you can, especially some on the bus seems correct (hehehehehehe)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I believe in the importance of art",
+
+        5,
+
+        "gimme more book recs; a connoisseur of art in all media forms.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I work hard to please others",
+
+        2,
+
+        "log kya kahenge has never been your vibe, good job",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to help others with their personal problems",
+
+        5,
+
+        "do I need to say anything more?",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like thinking about the mysteries of the universe",
+
+        5,
+
+        "you wouldn't have chosen physics if not for this deep urge to understand the universe in its most raw form. even recommending books on cosmology, compatible for laymen like me.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I make plans and stick to them",
+
+        3,
+
+        "if the plan includes making a hyper-personalised wallet for a known stranger, then hells yes ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I spend time trying to understand myself",
+
+        5,
+
+        "'i made me laugh'- she seems pretty self-centred to me",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I get a thrill out of meeting new people",
+
+        5,
+
+        "because that first and second dtk1234 interview for your partner (me) was the absolute highlight of your 2023 i know. ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am sensitive to the feelings of others",
+
+        4,
+
+        "I would say there are times you've fallen short on social situation awareness (ahem holi) but you're definitely very well tunes to pick up on others feelings. A blessing or a curse-- who's to tell?",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy learning about scientific theories",
+
+        5,
+
+        "everything's a scientific theory if yugam thinks hard enough. maybe the next mystery you can solve is the one of what the hell that first drink you'd had at hans?!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I start tasks in advance, so that I have plenty of time to finish",
+
+        2,
+
+        "i think if the task is you reaching a place on time, it's a 5! but if we're discussing work, I think there's just too many chess and valo games to be played and youtube videos to be watched. ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I love to make new friends",
+
+        4,
+
+        "I'm sorry loneliness plagued your childhood, but I can damn well say you're the sort of friend everyone prays for and I am lucky enough to have.",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+
+
+/* ==========================================================
+
+     ROUND 4
+
+     ACCURACY FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 4",
+
+    rows: [
+
+      [
+
+        "I like to have a detailed plan before starting a task",
+
+        3,
+
+        "Write your real take here.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "People tell me I am too quiet",
+
+        2,
+
+        "Maybe at first impression, but not truly. I know how loud your mind can get at times.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am concerned about others",
+
+        5,
+
+        "Concerned how stupid people can be fr. I haven't had anyone care about my SH proactively than you. I can sense your concern, and it makes me feel heard. Thank you for it, and sorry for disrupting your nervous system through it ever so often.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I would prefer to come up with an original solution to a problem",
+
+        3,
+
+        "If DTK taught us anything, it's that design is heavily influenced by the user and that it's the most unexpected insights that make the greatest difference.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "Being around lots of people energizes me",
+
+        4,
+
+        "around your people, yes! that day with het and will was fun btw :) maybe we four would've made a fun group in another universe",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I have trouble sticking to a routine",
+
+        2,
+
+        "not when you've got me (your accountability buddy) for a friend!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "It is important to me to be of service to others",
+
+        3,
+
+        "",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy examining myself and my life",
+
+        5,
+
+        "HECK YEAH. mr. thrives on introspection",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I find it challenging to make new friends",
+
+        3,
+
+        "I think your past had you strongly in its grip but you've been coming out of your shell and coming around to make some more :)) ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am a private person",
+
+        3,
+
+        "Privacy? I 'ardly know 'er!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I let others know that I care about their feelings",
+
+        5,
+
+        "15th may this year had a quiet sadness attached cause of the weeks prior, but there was a certain delight brought by my artistic and caring friends.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am full of new ideas",
+
+        4,
+
+        "you definitely are, full of strange ones too",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to finish all my chores before I do something fun",
+
+        2,
+
+        "we never finished anything before walking to coolspot for breaks though hehe",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I question why things are the way they are",
+
+        3,
+
+        "yes, although all that time has revealed to you the intricasies of life to a good extent already",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I carry out my plans",
+
+        4,
+
+        "dubbed mr.trip-organiser",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+
+
+/* ==========================================================
+
+     ROUND 5
+
+     ACCURACY FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 5",
+
+    rows: [
+
+      [
+
+        "It is important to me to make decisions without being swayed by emotions",
+
+        1,
+
+        "yk I would band up with conspiracy theorists given how strongly I'd be sure that you've been clones if I ever hear you say something as absurd as this",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I lose my belongings",
+
+        3,
+
+        "capabilities to make good decisions when drunk, yes",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "It is important to me to follow traditions",
+
+        3,
+
+        "I think you're traditional in the sense that you would want to create your own and follow them, not the sorts to blindly follow shi like 'dOnT cUt yOuR nAiLs aT nIgHt' yk",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I let other people know what I think",
+
+        4,
+
+        "dicey one cause she is opinionated but also non-confrontational about stuff. although with the 'honesty is the best policy' mindset, I know you try to bring up stuff if it bothers you",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I try to avoid conflict",
+
+        3,
+
+        "I don't think youre the sorts to perceive a disagreement as a conflict, very mature",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I have trouble controlling my impulses",
+
+        4,
+
+        "she's a bit adhd",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I love life",
+
+      5,
+
+        "how can you not when you've got so much love to receive and give :)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am ambitious",
+
+        5,
+
+        "mr. first chs-cde student. The time varidhi and i joined you in filming was fun, us all trying to look oh so serious and invested and not laugh at random explanations you were giving, good times",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I would like to play a musical instrument",
+
+        5,
+
+        "i know you will say 'i want to but im not gonna be good at it' but i call that cap. i think nusic is healing and you'll find a lot of joy in learning one. my vote is for guitar! (#unbiased)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to be needed by other people",
+
+        4,
+
+        "you find meaning in connection, so naturally this is true",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I avoid being alone",
+
+        2,
+
+        "I don't think you're scared of being alone. you may prefer being around your friends but that doesn't mean you fear solitude.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I forgive easily",
+
+        5,
+
+        "this is where your empathy sometimes overcompensates. sometimes it's okay to not forgive someone who hurt you even if you understand why they did what they did.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like trying out new hobbies",
+
+        5,
+
+        "f1, sandcastle making, archery, it's all there.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to stay active",
+
+        4,
+
+        "active both physically and emotionally with our utown walks! throwback to us walking around the night to light festival with will :,))",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "It is best to be totally objective when making a decision",
+
+        3,
+
+        "over my dead body",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+
+
+/* ==========================================================
+
+     ROUND 6
+
+     ACCURACY FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 6",
+
+    rows: [
+
+      [
+
+        "I have a rich fantasy life",
+
+        4,
+
+        "this sounds kinky. but I think you are imaginative as fawk.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I have little to say",
+
+        1,
+
+        "no she is a yapper good sire.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to do things as they were done in the past",
+
+        2,
+
+        "you do romanticise the past sometimes I think, but if we're talking tradition like societal wale, then hell no",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I avoid arguing, even when I disagree",
+
+        1,
+
+        "one thing is you really think things thru and are always ready to truly hear the other person. it's one of your best qualities too!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I have a lot of fun",
+
+        5,
+
+        "mai hu na, fun hi fun hai",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I resist temptations",
+
+        1,
+
+        "we can never say no to mala, can we?",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am determined to achieve success in life",
+
+        5,
+
+        "we know the true meaning of success and yes, you're determined and destined for it. I know it.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to spend my free time alone",
+
+        3,
+
+        "books, valo, comedy; you're never truly alone",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I believe people should be punished for their mistakes",
+
+        4,
+
+        "netanyahu. trump. modi.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I spend time seeking out new experiences",
+
+        4,
+
+        "ahem daaaaaaruuuuuuuu ahem buzzballlsssss ahem 100 dollar vodka bottle at holi ahem  ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am on the go",
+
+        2,
+
+        "as docs have said, zont zo (till ur back is ok)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I wish other people would be more logical",
+
+        5,
+
+        "stupid people exist all around",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to tidy up",
+
+        4,
+
+        "you sure like helping tidy up hehe",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy imagining the future",
+
+        5,
+
+        "because a spectacular one is waiting for you (no takebacks)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I find it difficult to express my opinions",
+
+        1,
+
+        "articulation is one of the finest weapons in your arsenal ",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+
+
+/* ==========================================================
+
+     ROUND 7
+
+     ACCURACY FORMAT
+
+     ========================================================== */
+
+  {
+
+    title: "Round 7",
+
+    rows: [
+
+      [
+
+        "I try not to draw attention to myself",
+
+        2,
+
+        "a-10-shun hoe nahi ho",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I dislike being in competition with others",
+
+        4,
+
+        "fuck capitalism",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I question the wisdom of my elders",
+
+        5,
+
+        "fuck 'respect your elders' propergandu",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I finish assignments before they are due",
+
+        1,
+
+        "time is a social construct, innit bruv?",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am concerned for the welfare of elderly people",
+
+        4,
+
+        "gotta love the racist folk #gen2060 over #gen2050 DUUUUUUUUH",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I follow my impulses",
+
+        5,
+
+        "we know how well you do with me telling you to NOT text someone",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I feel very happy",
+
+        5,
+
+        "i hope this website has achieved a 5/5 state for you (even if it's just temporary)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I need support from other people",
+
+        4,
+
+        "we all do :))",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I enjoy going to museums",
+
+        5,
+
+        "national gallery enthusiasts! (me definitely not because posty was performing next to it)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I avoid noisy crowds",
+
+        3,
+
+        "brown noise (aggy) can be avoided",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I forgive others’ mistakes, even when they harm me personally",
+
+        5,
+
+        "it would be nice to grow a pair ngl",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like to do things differently, even if I am not sure it will work",
+
+        5,
+
+        "unchartered territory is her forte!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am not bothered by disorder",
+
+        4,
+
+        "the fact that you can see me in my room packing from sheares in y1 to utr in y4 means you are ok!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I do not like to sit still for long",
+
+        3,
+
+        "3 represents the number of hours youd spend oneshot at clb w me Write your real take here.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I make important decisions based on my gut feelings",
+
+        4,
+
+        "at the end of the day, we can only count on our heart <3",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+
+/* ==========================================================
+     ROUND 8
+     ACCURACY FORMAT
+     ========================================================== */
+  
+  
+  
+  
+     {
+
+    title: "Round 8",
+
+    rows: [
+
+      [
+
+        "I enjoy having a daily routine",
+
+        3,
+
+        "maybe in a few years down the line, we find each other living in the same city again and have a routine again :)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I hold back my opinions",
+
+        1,
+
+        "my opinion: you're one of the best things nus has given me (yes I am objectifying her)",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I feel uncomfortable when I disagree with someone",
+
+        2,
+
+        "the biggest disagreement bw us is the fact that you don't see how great of a person you are",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I make an effort to be popular",
+
+        5,
+
+        "pappu? is that you?",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I am easily distracted",
+
+        4,
+
+        "if you can watch a 2.5 hour video on mort...",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I have a zest for life",
+
+        2,
+
+        "i hope for you to grow this number exponentially, and to be there to watch it bloom ",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I give to people who are less fortunate than I",
+
+        4,
+
+        "i can definitely see u be the youngest philanthropist to ever exist",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I wonder why I am the way I am",
+
+        4,
+
+        "we r who we r - ke$ha",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "It’s important to me that other people like me",
+
+        3,
+
+        "unbothered, and proud",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I appreciate the beauty of nature",
+
+        5,
+
+        "your cue to visit me in zurich :) surprise me!",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I prefer quiet surroundings",
+
+        2,
+
+        "the fact that you could 'study' at erc... deplorable...",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I find it difficult to get down to work",
+
+        4,
+
+        "bro either LOOOOOCKS in or ZOOOOONES out. 100% or nothing.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I can't stand when someone doesn't like me",
+
+        2,
+
+        "you're definitely a lil bit of a people pleaser but nothing too serious.",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "I like poetry",
+
+        5,
+
+        "you're the best reel sender frfr",
+
+        "accuracy"
+
+      ],
+
+      [
+
+        "Emotional people make me uncomfortable",
+
+        1,
+
+        "we wouldn't be here if you were bothered by it",
+
+        "accuracy"
+
+      ]
+
+    ]
+
+  },
+
+/* ==========================================================
+     ROUND 9
+     ACCURACY FORMAT — QUESTION COUNT TBD
+     ========================================================== */
+  {
+
+    title: "Round 9",
+
+    rows: [
+
+      [
+
+        "I spend my time pursuing my goals",
+
+        "I spend my time enjoying life",
+
+        4,
+
+        "what's life without fun? BOOOOORINGGGGG"
+
+      ],
+
+      [
+
+        "I focus on real life",
+
+        "I use my imagination",
+
+        4,
+
+        "imagine being lucky enough to have met in a random cde module :)"
+
+      ],
+
+      [
+
+        "I trust traditional values",
+
+        "I question traditional values",
+
+        5,
+
+        "we should follow thru on our letter writing promise and make it a tradition!"
+
+      ],
+
+      [
+
+        "I enjoy activities that are familiar",
+
+        "I enjoy experiencing new things",
+
+        3,
+
+        "happiness can be found in both places and you don't seem picky"
+
+      ],
+
+      [
+
+        "I am more interested in what is possible",
+
+        "I am more interested in what is real",
+
+        2,
+
+        "i know you think anarchy is the best form of governance, but i also think you're a believer in the good of humanity"
+
+      ],
+
+      [
+
+        "I like to cooperate",
+
+        "I like to compete",
+
+        1,
+
+        "JEE and capitalism has haunted us enough..."
+
+      ],
+
+      [
+
+        "I prefer to follow a clear procedure",
+
+        "I prefer to improvise",
+
+        4,
+
+        "who is gonna read an instruction manual for procedure?"
+
+      ],
+
+      [
+
+        "I prefer to work in an active, bustling office",
+
+        "I prefer to work in a calm, quiet office",
+
+        2,
+
+        "cause i think you lowk prefer erc to clb </333 except for the aircon component"
+
+      ],
+
+      [
+
+        "I do things step-by-step",
+
+        "I jump in and figure things out as I go",
+
+        4,
+
+        "don't jump too much ha, your spine needs rest"
+
+      ],
+
+
+    ]
+
+  },
+
+/* ==========================================================
+     ROUND 10
+     PAIR FORMAT — 9 QUESTIONS
+     ========================================================== */
+
+];
+
+
+/* ============================================================
+
+   AVATAR DATA
+
+   ============================================================ */
+
+const SKIN = [
+
+  "#FFE0BD",
+
+  "#F1C27D",
+
+  "#C68642",
+
+  "#8D5524",
+
+  "#FFD9B3"
+
+];
+
+const HAIR = [
+
+  "#3B2417",
+
+  "#6B4423",
+
+  "#C98F4A",
+
+  "#1A1A1A",
+
+  "#8B5E3C",
+
+  "#D9A441",
+
+  "#4A3728"
+
+];
+
+const OUTFIT = [
+
+  "#FF8C7A",
+
+  "#7BC9A6",
+
+  "#7FB8E8",
+
+  "#FFD166",
+
+  "#C792EA",
+
+  "#F49AC2",
+
+  "#4DD0E1",
+
+  "#FFB84D"
+
+];
+
+
+
+/* ============================================================
+
+   AVATAR GENERATOR
+
+   ============================================================ */
+
+function avatarSVG(seed){
+
+  const skin = SKIN[seed % SKIN.length];
+
+  const hair = HAIR[(seed + 2) % HAIR.length];
+
+  const outfit = OUTFIT[(seed + 3) % OUTFIT.length];
+
+  const style = seed % 5;
+
+  let hairShape = '';
+
+  if(style === 0){
+
+    hairShape = `
+
+      <path
+
+        d="M6 20 C6 6 42 6 42 20 L42 26 C34 18 14 18 6 26 Z"
+
+        fill="${hair}"
+
+      />
+
+    `;
+
+  }else if(style === 1){
+
+    hairShape = `
+
+      <path
+
+        d="M8 18 C8 6 40 6 40 18 L40 22 C32 14 16 14 8 22 Z"
+
+        fill="${hair}"
+
+      />
+
+      <circle cx="6" cy="27" r="5.5" fill="${hair}"/>
+
+      <circle cx="42" cy="27" r="5.5" fill="${hair}"/>
+
+    `;
+
+  }else if(style === 2){
+
+    hairShape = `
+
+      <path
+
+        d="M4 22 C4 5 44 5 44 22 Z"
+
+        fill="${hair}"
+
+      />
+
+      <rect
+
+        x="22"
+
+        y="17"
+
+        width="20"
+
+        height="7"
+
+        rx="3.5"
+
+        fill="${hair}"
+
+      />
+
+    `;
+
+  }else if(style === 3){
+
+    hairShape = `
+
+      <circle cx="10" cy="15" r="7" fill="${hair}"/>
+
+      <circle cx="19" cy="9" r="8" fill="${hair}"/>
+
+      <circle cx="29" cy="9" r="8" fill="${hair}"/>
+
+      <circle cx="38" cy="15" r="7" fill="${hair}"/>
+
+    `;
+
+  }else{
+
+    hairShape = `
+
+      <path
+
+        d="M6 18 C6 4 30 1 40 11 C43 14 43 20 40 23 C35 12 14 9 6 23 Z"
+
+        fill="${hair}"
+
+      />
+
+    `;
+
+  }
+
+  const accMod = seed % 4;
+
+  const accessory =
+
+    accMod === 0
+
+      ? `
+
+        <circle
+
+          cx="24"
+
+          cy="9"
+
+          r="3"
+
+          fill="#ff6f61"
+
+        />
+
+      `
+
+      : accMod === 1
+
+      ? `
+
+        <rect
+
+          x="13"
+
+          y="24"
+
+          width="9"
+
+          height="5"
+
+          rx="2"
+
+          fill="none"
+
+          stroke="#2b2b2b"
+
+          stroke-width="1.3"
+
+        />
+
+        <rect
+
+          x="26"
+
+          y="24"
+
+          width="9"
+
+          height="5"
+
+          rx="2"
+
+          fill="none"
+
+          stroke="#2b2b2b"
+
+          stroke-width="1.3"
+
+        />
+
+        <line
+
+          x1="22"
+
+          y1="26.5"
+
+          x2="26"
+
+          y2="26.5"
+
+          stroke="#2b2b2b"
+
+          stroke-width="1.3"
+
+        />
+
+      `
+
+      : accMod === 2
+
+      ? `
+
+        <circle cx="13" cy="29" r="1.1" fill="rgba(0,0,0,0.35)"/>
+
+        <circle cx="16" cy="31" r="1.1" fill="rgba(0,0,0,0.35)"/>
+
+        <circle cx="32" cy="29" r="1.1" fill="rgba(0,0,0,0.35)"/>
+
+        <circle cx="35" cy="31" r="1.1" fill="rgba(0,0,0,0.35)"/>
+
+      `
+
+      : '';
+
+  return `
+
+    <svg
+
+      viewBox="0 0 48 54"
+
+      width="100%"
+
+      height="100%"
+
+    >
+
+      <rect
+
+        x="7"
+
+        y="39"
+
+        width="34"
+
+        height="18"
+
+        rx="9"
+
+        fill="${outfit}"
+
+      />
+
+      <circle
+
+        cx="24"
+
+        cy="25"
+
+        r="17"
+
+        fill="${skin}"
+
+      />
+
+      ${hairShape}
+
+      <circle
+
+        cx="17.5"
+
+        cy="27"
+
+        r="1.9"
+
+        fill="#2b2b2b"
+
+      />
+
+      <circle
+
+        cx="30.5"
+
+        cy="27"
+
+        r="1.9"
+
+        fill="#2b2b2b"
+
+      />
+
+      <circle
+
+        cx="14.5"
+
+        cy="32"
+
+        r="2.8"
+
+        fill="rgba(255,90,90,0.25)"
+
+      />
+
+      <circle
+
+        cx="33.5"
+
+        cy="32"
+
+        r="2.8"
+
+        fill="rgba(255,90,90,0.25)"
+
+      />
+
+      <path
+
+        d="M18.5 34 Q24 38.5 29.5 34"
+
+        stroke="#2b2b2b"
+
+        stroke-width="1.5"
+
+        fill="none"
+
+        stroke-linecap="round"
+
+      />
+
+      ${accessory}
+
+    </svg>
+
+  `;
+
+}
+
+
+
+/* ============================================================
+
+   DOM REFERENCES
+
+   ============================================================ */
+
+const ringWrap = document.getElementById('ring-wrap');
+
+const roundTabs = document.getElementById('round-tabs');
+
+const overallProgEl = document.getElementById('overall-progress');
+
+const bubble = document.getElementById('bubble');
+
+const scrim = document.getElementById('scrim');
+
+
+
+/* ============================================================
+
+   STATE
+
+   ============================================================ */
+
+let currentRound = 0;
+
+let seatEls = [];
+
+const answeredSet = new Set();
+
+const TOTAL = ROUNDS.reduce((sum, round) => sum + round.rows.length, 0);
+
+
+
+/* ============================================================
+
+   CENTER SEATS
+
+   ============================================================ */
+
+function buildCenter(){
+
+  const you = document.createElement('div');
+
+  you.className = 'seat center-seat you';
+
+  you.innerHTML = `
+
+    <div class="avatar-wrap">
+
+      ${avatarSVG(1)}
+
+    </div>
+
+  `;
+
+  ringWrap.appendChild(you);
+
+
+
+  const link = document.createElement('div');
+
+  link.className = 'center-link';
+
+  ringWrap.appendChild(link);
+
+
+
+  const him = document.createElement('div');
+
+  him.className = 'seat center-seat him';
+
+  him.innerHTML = `
+
+    <div class="avatar-wrap">
+
+      ${avatarSVG(6)}
+
+    </div>
+
+  `;
+
+  ringWrap.appendChild(him);
+
+}
+
+
+
+/* ============================================================
+
+   ROUND TABS
+
+   ============================================================ */
+
+function buildTabs(){
+
+  ROUNDS.forEach((r,i) => {
+
+    const tab = document.createElement('button');
+
+    tab.className =
+
+      'rtab' +
+
+      (i === 0 ? ' active' : '');
+
+    tab.textContent = i + 1;
+
+    tab.addEventListener(
+
+      'click',
+
+      () => switchRound(i)
+
+    );
+
+    roundTabs.appendChild(tab);
+
+  });
+
+}
+
+
+
+/* ============================================================
+
+   SWITCH ROUND
+
+   ============================================================ */
+
+function switchRound(i){
+
+  currentRound = i;
+
+  [...roundTabs.children].forEach(
+
+    (t,idx) => {
+
+      t.classList.toggle(
+
+        'active',
+
+        idx === i
+
+      );
+
+    }
+
+  );
+
+renderSeats();
+
+closeBubble();
+
+updateFlag();
+
+}
+
+
+
+/* ============================================================
+
+   RENDER SEATS
+
+   ============================================================ */
+
+function renderSeats(){
+
+  seatEls.forEach(
+
+    s => s.remove()
+
+  );
+
+  seatEls = [];
+
+  const rows =
+
+    ROUNDS[currentRound].rows;
+
+  const n = rows.length;
+
+  const radius = 43;
+
+
+
+  rows.forEach((row,i) => {
+
+    const angle =
+
+      (Math.PI * 2 * i) / n -
+
+      Math.PI / 2;
+
+    const x =
+
+      50 +
+
+      radius *
+
+      Math.cos(angle);
+
+    const y =
+
+      50 +
+
+      radius *
+
+      Math.sin(angle);
+
+
+
+    const seat =
+
+      document.createElement('button');
+
+    seat.className = 'seat';
+
+
+
+    if(
+
+      answeredSet.has(
+
+        currentRound + '-' + i
+
+      )
+
+    ){
+
+      seat.classList.add('answered');
+
+    }
+
+
+
+    seat.style.left = x + '%';
+
+    seat.style.top = y + '%';
+
+
+
+    seat.innerHTML = `
+
+      <div class="avatar-wrap">
+
+        ${avatarSVG(
+
+          i + currentRound * 17
+
+        )}
+
+      </div>
+
+      <div class="pname">
+
+        ${
+
+          PEOPLE_NAMES[i] ||
+
+          ('Guest ' + (i + 1))
+
+        }
+
+      </div>
+
+    `;
+
+
+
+    seat.addEventListener(
+
+      'click',
+
+      () => openSeat(i)
+
+    );
+
+
+
+    ringWrap.appendChild(seat);
+
+    seatEls.push(seat);
+
+  });
+
+}
+
+
+
+/* ============================================================
+
+   OPEN QUESTION
+
+   ============================================================ */
+
+function openSeat(i){
+
+  const row =
+
+    ROUNDS[currentRound].rows[i];
+
+
+
+/*
+
+    Determine which format this question uses.
+
+    Accuracy:
+
+      [statement, value, note, "accuracy"]
+
+    Pair:
+
+      [left, right, value, note]
+
+  */
+
+  const isAccuracy =
+
+    row[3] === "accuracy";
+
+
+
+  let left;
+
+  let right;
+
+  let value;
+
+  let note;
+
+  let statement;
+
+
+
+  if(isAccuracy){
+
+    statement = row[0];
+
+    value = row[1];
+
+    note = row[2];
+
+    left = "INACCURATE";
+
+    right = "ACCURATE";
+
+  }else{
+
+    left = row[0];
+
+    right = row[1];
+
+    value = row[2];
+
+    note = row[3];
+
+  }
+
+
+
+  const personName =
+
+    PEOPLE_NAMES[i] ||
+
+    ('Guest ' + (i + 1));
+
+
+
+/* Sender */
+
+  document
+
+    .getElementById('b-sender-avatar')
+
+    .innerHTML = avatarSVG(1);
+
+
+
+  document
+
+    .getElementById('b-sender-name')
+
+    .textContent =
+
+      `${NAMES.you} thinks:`;
+
+
+
+/* Eyebrow */
+
+  document
+
+    .getElementById('b-eyebrow')
+
+    .textContent =
+
+      `Round ${currentRound + 1} · ${personName} asks`;
+
+
+
+/* Statement */
+
+  const statementEl =
+
+    document.getElementById(
+
+      'b-statement'
+
+    );
+
+
+
+  if(isAccuracy){
+
+    statementEl.textContent =
+
+      statement;
+
+    statementEl.style.display =
+
+      'block';
+
+  }else{
+
+    statementEl.textContent = '';
+
+    statementEl.style.display =
+
+      'none';
+
+  }
+
+
+
+/* Labels */
+
+  document
+
+    .getElementById('b-left')
+
+    .textContent = left;
+
+  document
+
+    .getElementById('b-right')
+
+    .textContent = right;
+
+
+
+/* Personal take */
+
+  document
+
+    .getElementById('b-note')
+
+    .textContent = note;
+
+
+
+/* Five scale dots */
+
+  const dotsWrap =
+
+    document.getElementById(
+
+      'slider-dots'
+
+    );
+
+  dotsWrap.innerHTML = '';
+
+
+
+  for(
+
+    let d = 1;
+
+    d <= 5;
+
+    d++
+
+  ){
+
+    const dot =
+
+      document.createElement('div');
+
+    dot.className =
+
+      'slider-dot' +
+
+      (
+
+        d === value
+
+          ? ' filled'
+
+          : ''
+
+      );
+
+    dotsWrap.appendChild(dot);
+
+  }
+
+
+
+/* Slider animation */
+
+  const fill =
+
+    document.getElementById(
+
+      'slider-fill'
+
+    );
+
+  fill.style.width = '0%';
+
+
+
+requestAnimationFrame(() => {
+
+    fill.style.width =
+
+      (
+
+        (value - 1) /
+
+        4 *
+
+        100
+
+      ) + '%';
+
+  });
+
+
+
+/* Highlight selected seat */
+
+  seatEls.forEach(
+
+    (s,idx) => {
+
+      s.classList.toggle(
+
+        'active',
+
+        idx === i
+
+      );
+
+      s.classList.toggle(
+
+        'dimmed',
+
+        idx !== i
+
+      );
+
+    }
+
+  );
+
+
+
+/* Mark as answered */
+
+  const key =
+
+    currentRound + '-' + i;
+
+
+
+  if(
+
+    !answeredSet.has(key)
+
+  ){
+
+    answeredSet.add(key);
+
+    seatEls[i]
+
+      .classList.add('answered');
+
+updateProgress();
+
+  }
+
+
+
+/* Open */
+
+  bubble.classList.add('open');
+
+  scrim.classList.add('open');
+
+}
+
+
+
+/* ============================================================
+
+   CLOSE BUBBLE
+
+   ============================================================ */
+
+function closeBubble(){
+
+  bubble.classList.remove('open');
+
+  scrim.classList.remove('open');
+
+  seatEls.forEach(
+
+    s => {
+
+      s.classList.remove(
+
+        'active'
+
+      );
+
+      s.classList.remove(
+
+        'dimmed'
+
+      );
+
+    }
+
+  );
+
+}
+
+
+
+/* ============================================================
+
+   PROGRESS
+
+   ============================================================ */
+
+function updateProgress(){
+
+  overallProgEl.textContent =
+
+    `${answeredSet.size} / ${TOTAL}`;
+
+
+
+  ROUNDS.forEach(
+
+    (r,ri) => {
+
+      const done =
+
+        r.rows.every(
+
+          (_,i) =>
+
+            answeredSet.has(
+
+              ri + '-' + i
+
+            )
+
+        );
+
+
+
+      roundTabs.children[ri]
+
+        .classList.toggle(
+
+          'complete',
+
+          done
+
+        );
+
+    }
+
+  );
+
+
+
+/* Overall video scrub */
+
+  const overallPct =
+
+    (
+
+      answeredSet.size /
+
+      TOTAL
+
+    ) * 100;
+
+
+
+  document
+
+    .getElementById(
+
+      'yt-scrub-fill'
+
+    )
+
+    .style.width =
+
+      overallPct + '%';
+
+
+
+  document
+
+    .getElementById(
+
+      'yt-scrub-handle'
+
+    )
+
+    .style.left =
+
+      overallPct + '%';
+
+
+
+updateFlag();
+
+
+
+/* Finale */
+
+  if(
+
+    answeredSet.size === TOTAL
+
+  ){
+
+setTimeout(
+
+showFinale,
+
+      1200
+
+    );
+
+  }
+
+}
+
+
+
+/* ============================================================
+
+   FLAG / CURRENT ROUND PROGRESS
+
+   ============================================================ */
+
+function updateFlag(){
+
+  const roundAnswered =
+
+    ROUNDS[currentRound]
+
+      .rows
+
+      .filter(
+
+        (_,i) =>
+
+          answeredSet.has(
+
+            currentRound + '-' + i
+
+          )
+
+      )
+
+      .length;
+
+
+
+  const pct =
+
+    (roundAnswered / ROUNDS[currentRound].rows.length) * 100;
+
+
+
+  document
+
+    .getElementById(
+
+      'flag-fill-clip'
+
+    )
+
+    .style.clipPath =
+
+      `inset(${100 - pct}% 0 0 0)`;
+
+
+
+  document
+
+    .getElementById(
+
+      'flag-count'
+
+    )
+
+    .innerHTML =
+
+      `${roundAnswered}<span>/${ROUNDS[currentRound].rows.length}</span>`;
+
+
+
+  document
+
+    .getElementById(
+
+      'yt-time'
+
+    )
+
+    .textContent =
+
+      `Round ${currentRound + 1} / ${ROUNDS.length}`;
+
+}
+
+
+
+/* ============================================================
+
+   FINALE
+
+   ============================================================ */
+
+function showFinale(){
+
+  const letters =
+
+    document.getElementById(
+
+      'type-letters'
+
+    );
+
+
+
+  letters.innerHTML = '';
+
+
+
+  [...FINALE.type]
+
+    .forEach(
+
+      (ch,idx) => {
+
+        const span =
+
+          document.createElement(
+
+            'span'
+
+          );
+
+        span.className =
+
+          'type-letter';
+
+        span.textContent = ch;
+
+        letters.appendChild(
+
+          span
+
+        );
+
+
+
+setTimeout(
+
+          () =>
+
+            span.classList.add(
+
+              'show'
+
+            ),
+
+          300 + idx * 220
+
+        );
+
+      }
+
+    );
+
+
+
+  document
+
+    .getElementById(
+
+      'type-name'
+
+    )
+
+    .textContent =
+
+      FINALE.typeName;
+
+
+
+  const hbd =
+
+    document.getElementById(
+
+      'hbd-note'
+
+    );
+
+
+
+  hbd.innerHTML =
+
+    FINALE.note.replace("[TOTAL]", TOTAL);
+
+
+
+setTimeout(
+
+    () =>
+
+      hbd.classList.add(
+
+        'show'
+
+      ),
+
+    1500
+
+  );
+
+
+
+  document
+
+    .querySelector(
+
+      '#finale .btn'
+
+    )
+
+    .classList.add('show');
+
+
+
+  document
+
+    .getElementById(
+
+      'finale'
+
+    )
+
+    .classList.add('show');
+
+}
+
+
+
+/* ============================================================
+
+   EVENT LISTENERS
+
+   ============================================================ */
+
+document
+
+  .getElementById('scrim')
+
+  .addEventListener(
+
+    'click',
+
+closeBubble
+
+  );
+
+
+
+document
+
+  .getElementById('enter-btn')
+
+  .addEventListener(
+
+    'click',
+
+    () =>
+
+      document
+
+        .getElementById('intro')
+
+        .classList.add('hidden')
+
+  );
+
+
+
+document
+
+  .getElementById('replay-btn')
+
+  .addEventListener(
+
+    'click',
+
+    () =>
+
+      document
+
+        .getElementById('finale')
+
+        .classList.remove('show')
+
+  );
+
+
+
+document.addEventListener(
+
+  'keydown',
+
+  e => {
+
+    if(e.key === 'Escape'){
+
+closeBubble();
+
+    }
+
+  }
+
+);
+
+
+
+/* ============================================================
+
+   INITIALISE
+
+   ============================================================ */
+
+overallProgEl.textContent = `0 / ${TOTAL}`;
+
+buildCenter();
+
+buildTabs();
+
+renderSeats();
+
+
+
+document
+
+  .getElementById(
+
+    'yt-title-text'
+
+  )
+
+  .textContent =
+
+    VIDEO_TITLE;
+
+
+
+document
+
+  .getElementById(
+
+    'un-title'
+
+  )
+
+  .textContent =
+
+    RECOMMENDED.title;
+
+
+
+document
+
+  .getElementById(
+
+    'un-channel'
+
+  )
+
+  .textContent =
+
+    RECOMMENDED.channel;
+
+
+
+document
+
+  .getElementById(
+
+    'un-views'
+
+  )
+
+  .textContent =
+
+    RECOMMENDED.views || '';
+
+
+
+document
+
+  .getElementById(
+
+    'un-duration'
+
+  )
+
+  .textContent =
+
+    RECOMMENDED.duration;
+
+
+
+setTimeout(
+
+  () =>
+
+    document
+
+      .getElementById('up-next')
+
+      .classList.add('show'),
+
+  1800
+
+);
+
+
+
+updateFlag();
+
+
+  // RESULTS NAVIGATION — a real page (results.html), intentionally
+  // independent of question progress: works at any point, no gating.
+  const upNext = document.getElementById('up-next');
+  upNext.addEventListener('click', () => {
+    window.location.href = 'results.html';
+  });
+
+</script>
+</body>
+
+</html>
